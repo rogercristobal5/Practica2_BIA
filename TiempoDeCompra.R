@@ -1,4 +1,6 @@
-### Tiempo de Compra ###
+      ### Tiempo de Compra ###
+### Roger Cristobal y Marc lópez ###
+
 #### Carga de librerias y paquetes ####
 install.packages("shiny")
 install.packages("dplyr")
