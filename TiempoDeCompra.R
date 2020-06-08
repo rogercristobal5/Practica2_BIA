@@ -23,5 +23,21 @@ OrderData <- read.table("order_items.csv", sep=",", dec=".", quote = "\"'",
 TestData <- read.table("test_trips.csv", sep=",", dec=".", quote = "\"'",
                        header=TRUE, skip = 0, na.strings = "NA")
 
+## Transformamos los datos de formato ##
 TrainData$shopping_started_at <- as.POSIXct(TrainData$shopping_started_at)
 TrainData$shopping_ended_at <- as.POSIXct(TrainData$shopping_ended_at)
+# TrainData$Difference <- TrainData$shopping_ended_at - TrainData$shopping_started_at
+
+# 
+
+resumOrder <- OrderData %>%
+  group_by(trip_id) %>%
+  summarise(TotalQuantity = sum(quantity)
+            # ,num_dept_visited = sum(count(OrderData, wt = OrderData$department_name))
+  )
+
+resumTrain <- TrainData %>%
+  group_by(trip_id, store_id) %>%
+  summarise(shopping_time = difftime(shopping_ended_at,shopping_started_at, units = "mins"))
+
+allTrainData <- merge(resumOrder,resumTrain, by="trip_id")
